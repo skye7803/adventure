@@ -29,7 +29,7 @@ while True:
 			if direction in location.directions:
 				if direction in location.currentRegion.keys():
 					location.currentRegion = location.regions[location.currentRegion[direction]]
-					inventory.playerInventory['health'] -= 5
+					inventory.playerInventory['health'] -= 2
 				else:
 					print("You can't go that way.")
 			else:
