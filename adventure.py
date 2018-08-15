@@ -42,7 +42,7 @@ while True:
 			else:
 				print('You have no coconuts!')
 		elif command.lower().strip() in ['craft', 'rest']:
-			if currentRegion['id'] in regionsSafe:
+			if location.currentRegion['id'] in regionsSafe:
 				if command == 'rest':
 					if int(inventory.playerInventory['health']) < 50:
 						health = 50
@@ -54,13 +54,13 @@ while True:
 			else:
 				print(errorMessage)
 		elif command.lower().strip() in ['pick up rocks', 'pick up sticks', 'pick up leaves', 'pick up coconuts']:
-			if currentRegion['id'] in regionsRocky:
+			if location.currentRegion['id'] in regionsRocky:
 				if command.lower().strip() in ['pick up rocks']:
 					inventory.playerInventory['rocks'] += 10
 					print('You have ' + str(inventory.playerInventory['rocks']) + ' rocks')
 				else:
 					print(errorMessage)
-			elif currentRegion['id'] in regionsBeachy:
+			elif location.currentRegion['id'] in regionsBeachy:
 				if command.lower().strip() in ['pick up sticks']:
 					inventory.playerInventory['sticks'] += 10
 					print('You have ' + str(inventory.playerInventory['sticks']) + ' sticks')
@@ -76,14 +76,38 @@ while True:
 				print(errorMessage)
 		elif command.lower().strip() in ['check inventory']:
 			print('You have:')
-			print(str(inventory.playerInventory['sticks']) + ' sticks')
-			print(str(inventory.playerInventory['rocks']) + ' rocks')
-			print(str(inventory.playerInventory['wood']) + ' wood')
-			print(str(inventory.playerInventory['stone']) + ' stone')
-			print(str(inventory.playerInventory['leaves']) + ' leaves')
-			print(str(inventory.playerInventory['coconuts']) + ' coconuts')
-			print(str(inventory.playerInventory['string']) + ' string')
-			print(str(inventory.playerInventory['health']) + ' health')
+			if inventory.playerInventory['sticks'] >= 1:
+				print(str(inventory.playerInventory['sticks']) + ' sticks')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['rocks'] >= 1:
+				print(str(inventory.playerInventory['rocks']) + ' rocks')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['wood'] >= 1:
+				print(str(inventory.playerInventory['wood']) + ' wood')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['stone'] >= 1:
+				print(str(inventory.playerInventory['stone']) + ' stone')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['leaves'] >= 1:
+				print(str(inventory.playerInventory['leaves']) + ' leaves')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['coconuts'] >= 1:
+				print(str(inventory.playerInventory['coconuts']) + ' coconuts')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['string'] >= 1:
+				print(str(inventory.playerInventory['string']) + ' string')
+			else:
+				print('None of this item!')
+			if inventory.playerInventory['health'] >= 1:
+				print(str(inventory.playerInventory['health']) + ' health')
+			else:
+				print('None of this item!')
 		else:
 			break
 	else:
