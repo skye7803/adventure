@@ -26,8 +26,8 @@ while True:
 		if command.lower().strip() == 'move':
 			direction = input('Where do you go?').lower()
 			if direction in location.directions:
-				if direction in location.currentRegion:
-					currentRegion = location.regions[location.currentRegion[direction]]
+				if direction in location.currentRegion.keys():
+					location.currentRegion = location.regions[location.currentRegion[direction]]
 					inventory.playerInventory['health'] -= 5
 				else:
 					print("You can't go that way.")
