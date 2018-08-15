@@ -151,40 +151,25 @@ stone = 0
 string = 0
 
 while True:
-
 	print('You are in {}.'.format(currentRegion['name']))
 	print(currentRegion['text'])
-	
 	if health <= 0:
 		print('You died!')
 		break
 	else:
 		print('Your health is ' + str(health))
-
 	command = input('What do you do?').lower()
-
-	
 	if command.lower().strip() in actions:
-		
-		
 		if command.lower().strip() == 'move':
 			direction = input('Where do you go?').lower()
-			
-			
 			if direction in directions:
-				
-				
 				if direction in currentRegion:
 					currentRegion = regions[currentRegion[direction]]
 					health -= 5
-
 				else:
 					print("You can't go that way.")
-			
-			
 			else:
 				print("I don't understand that direction.")
-		
 		elif command.lower().strip() in ['eat']:
 			if coconuts > 0:
 				coconuts -= 1
@@ -194,53 +179,34 @@ while True:
 			else:
 				print('You have no coconuts!')
 		elif command.lower().strip() in ['craft', 'rest']:
-
-
 			if currentRegion['id'] in regionsSafe:
-				
-				
 				if command == 'rest':
 					health = 50
 					print('Your health is: ' + str(health))
-				
 				else:
 					print('Error: Game unfinished')
-			
-			
 			else:
 				print(errorMessage)
-		
-		
 		elif command.lower().strip() in ['pick up rocks', 'pick up sticks', 'pick up leaves', 'pick up coconuts']:
-			
-			
 			if currentRegion['id'] in regionsRocky:
-				print('Error: Game unfinished')
-			
+				if command.lower().strip() in ['pick up rocks']:
+					rocks += 10
+					print('You have ' + str(rocks) + ' rocks')
 			elif currentRegion['id'] in regionsBeachy:
 				if command.lower().strip() in ['pick up sticks']:
 					sticks += 10
 					print('You have ' + str(sticks) + ' sticks')
-				elif command.lower().string() in ['pick up leaves']:
+				elif command.lower().strip() in ['pick up leaves']:
 					leaves += 10
 					print('You have ' + str(leaves) + ' leaves')
-				elif command.lower().string() in ['pick up coconuts']:
+				elif command.lower().strip() in ['pick up coconuts']:
 					coconuts += 5
 					print('You have ' + str(coconuts) + ' coconuts')
 				else:
-					print('congrats: the game is broke')
-					
-
-
-
-
+					print(errorMessage)
 			else:
 				print(errorMessage)
-		
-		
 		else:
 			break
-	
-	
 	else:
 		print('I don\'t understand')
