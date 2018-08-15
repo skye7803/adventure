@@ -79,35 +79,35 @@ while True:
 			if inventory.playerInventory['sticks'] >= 1:
 				print(str(inventory.playerInventory['sticks']) + ' sticks')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['rocks'] >= 1:
 				print(str(inventory.playerInventory['rocks']) + ' rocks')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['wood'] >= 1:
 				print(str(inventory.playerInventory['wood']) + ' wood')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['stone'] >= 1:
 				print(str(inventory.playerInventory['stone']) + ' stone')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['leaves'] >= 1:
 				print(str(inventory.playerInventory['leaves']) + ' leaves')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['coconuts'] >= 1:
 				print(str(inventory.playerInventory['coconuts']) + ' coconuts')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['string'] >= 1:
 				print(str(inventory.playerInventory['string']) + ' string')
 			else:
-				print('None of this item!')
+				print('[]')
 			if inventory.playerInventory['health'] >= 1:
 				print(str(inventory.playerInventory['health']) + ' health')
 			else:
-				print('None of this item!')
+				print('You\'ve broken the game. Good job.'
 		else:
 			break
 	else:
