@@ -192,6 +192,8 @@ while True:
 				if command.lower().strip() in ['pick up rocks']:
 					rocks += 10
 					print('You have ' + str(rocks) + ' rocks')
+				else:
+					print(errorMessage)
 			elif currentRegion['id'] in regionsBeachy:
 				if command.lower().strip() in ['pick up sticks']:
 					sticks += 10
