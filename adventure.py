@@ -76,7 +76,14 @@ while True:
 				print(errorMessage)
 		elif command.lower().strip() in ['check inventory']:
 			print('You have:')
-			print
+			print(inventory.playerInventory['sticks'] + ' sticks')
+			print(inventory.playerInventory['rocks'] + ' rocks')
+			print(inventory.playerInventory['wood'] + ' wood')
+			print(inventory.playerInventory['stone'] + ' stone')
+			print(inventory.playerInventory['leaves'] + ' leaves')
+			print(inventory.playerInventory['coconuts'] + ' coconuts')
+			print(inventory.playerInventory['string'] + ' string')
+			print(inventory.playerInventory['health'] + ' health')
 		else:
 			break
 	else:
