@@ -55,10 +55,10 @@
 # start()
 from pprint import pprint
 
-beachText = 'This is a pleasant beach with palm trees. You may check inventory, pick up sticks, leaves, coconuts, or move'
-dunesText = 'This is a hill filled area with lots of sand. You may check inventory, pick up rocks or move'
-craterText = 'This is a huge crater in the ground. You may check inventory, pick up rocks or move'
-centerText = 'These are the woods in which you woke up in. You may check inventory, craft, rest, or move.'
+beachText = 'This is a pleasant beach with palm trees. You may check inventory, eat, pick up sticks, leaves, coconuts, or move'
+dunesText = 'This is a hill filled area with lots of sand. You may check inventory, eat, pick up rocks or move'
+craterText = 'This is a huge crater in the ground. You may check inventory, eat, pick up rocks or move'
+centerText = 'These are the woods in which you woke up in. You may check inventory, eat, craft, rest, or move.'
 
 
 regions = {
@@ -133,7 +133,7 @@ regions = {
 		},
 }
 
-actions = ['move', 'craft', 'rest', 'check inventory', 'pick up rocks', 'pick up sticks','pick up leaves', 'pick up coconuts', 'quit']
+actions = ['move', 'craft', 'rest', 'check inventory', 'pick up rocks', 'pick up sticks','pick up leaves', 'pick up coconuts','eat', 'quit']
 directions = ['north', 'south', 'east', 'west']
 currentRegion = regions['centerb2']
 errorMessage = 'Sorry, you can\'t do that right now'
@@ -185,7 +185,14 @@ while True:
 			else:
 				print("I don't understand that direction.")
 		
-		
+		elif command.lower().strip() in ['eat']:
+			if coconuts > 0:
+				coconuts -= 1
+				health += 2
+				print('Your health is ' + str(health))
+				print('You have ' + str(coconuts) + ' coconuts')
+			else:
+				print('You have no coconuts!')
 		elif command.lower().strip() in ['craft', 'rest']:
 
 
