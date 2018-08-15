@@ -10,6 +10,7 @@ class Inventory:
             'wood' : 0,
             'stone' : 0,
             'string' : 0,
+            'coconut milk' : 0,
         }
     
 
