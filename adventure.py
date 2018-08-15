@@ -107,7 +107,7 @@ while True:
 			if inventory.playerInventory['health'] >= 1:
 				print(str(inventory.playerInventory['health']) + ' health')
 			else:
-				print('You\'ve broken the game. Good job.'
+				print('You\'ve broken the game. Good job.')
 		else:
 			break
 	else:
