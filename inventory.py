@@ -14,6 +14,13 @@ class Inventory:
 			'string' : 0,
 			'coconut milk' : 0,
 			'house' : False,
+			'craftingTable' : False,
+		}
+		self.crafting = {
+			'wood' : 'sticks',
+			'stone' : 'rocks',
+			'string' : 'leaves',
+			'coconut milk' : 'coconuts',
 		}
 
 	def print_inventory(self):

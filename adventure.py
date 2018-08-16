@@ -27,12 +27,12 @@ while True:
 		print('New crafting recipes learned!')
 	
 	if crater == True:
-		print()
+		gucci = 'yeet'
 	else:
-		if location.currentRegion == 'cratera3':
+		if location.currentRegion == location.regions['cratera3']:
 			print('The ground begins to crumble underneath you!')
 			print('You fall and black out!')
 			inventory.playerInventory['health'] /= 2
-			location.currentRegion = ['cavea3II']
+			location.currentRegion = location.regions['cavea3II']
 
 	activities.processActivityStatement(location, inventory)

@@ -5,11 +5,33 @@ from inventory import Inventory
 class Activities:
 	actions = ['move', 'craft', 'rest', 'check inventory', 'pick up rocks', 'pick up sticks','pick up leaves', 'pick up coconuts','eat', 'quit']
 	errorMessage = 'Sorry, you can\'t do that right now'
-	regionsRocky = ['dunesa1', 'dunesa2', 'cratera3', 'dunesb1']
-	regionsSafe = ['centerb2']
+	regionsRocky = ['dunesa1', 'dunesa2', 'cratera3', 'dunesb1', 'cavea3II', 'cavea2II', 'caveb3II', 'cavea4II']
+	regionsSafe = ['centerb2', 'mineb2II']
 	regionsBeachy = ['beachb3', 'beachc1', 'beachc2', 'beachc3']
 
-	def processActivityStatement(self, location: Location, inventory: Inventory):
+	def basicCrafting(self, crafting, amountCrafting, result):
+		amountResult = input('How many? ').lower().strip()
+		if inventory.playerInventory[crafting] >= amountCrafting * amountResult:
+			inventory.playerInventory[crafting] -= amountCrafting * amountResult
+			inventory.playerInventory[result] += amountResult
+		else:
+			print('Not enough resources!')
+			
+
+	def advancedCrafting(self, craftingA, craftingB, craftingC, craftingD, craftingE, amountA, amountB, amountC, amountD, amountE, result):
+		if inventory.playerInventory[craftingA] >= amountA and inventory.playerInventory[craftingB] >= amountB and inventory.playerInventory[craftingC] >= amountC and inventory.playerInventory[craftingD] >= amountD and inventory.playerInventory[craftingE] >= amountE:
+			inventory.playerInventory[craftingA] -= amountA
+			inventory.playerInventory[craftingB] -= amountB
+			inventory.playerInventory[craftingC] -= amountC
+			inventory.playerInventory[craftingD] -= amountD
+			inventory.playerInventory[craftingE] -= amountE
+			inventory.playerInventory[result] = True
+		else:
+			print('Not enough resources')
+	
+	
+	
+	def processActivityStatement(self, location, inventory):
 		self.command = input('What do you do? ').lower()
 
 		if self.command in Activities.actions:
@@ -47,39 +69,55 @@ class Activities:
 						else:
 							print('Already feeling well!')
 					else:
-						print('What would you like to craft?')
-						print('Stone cost: 5 rock --- crafting material')
-						print('Wood cost: 5 sticks --- crafting material')
-						print('String cost: 5 leaves --- crafting material')
-						print('Coconut milk cost: 3 coconuts --- Heals 5 health')
-						print('House cost: 20 wood, 20 stone, 20 string --- lets you rest up to 50 health')
-						self.command = input().lower().strip()
-						amount = input('How many? ')
-						if self.command in ['stone', 'wood', 'string', 'coconut milk']:
-							if self.command in ['stone']:
-								if inventory.playerInventory['rocks'] >= 5 * int(amount):
-									inventory.playerInventory[str(self.command)] += 1 * int(amount)
-									inventory.playerInventory['rocks'] -= 5 * int(amount)
-							elif self.command in ['wood']:
-								if inventory.playerInventory['sticks'] >= 5 * int(amount):
-									inventory.playerInventory[str(self.command)] += 1 * int(amount)
-									inventory.playerInventory['sticks'] -= 5 * int(amount)
-							elif self.command in ['string']:
-								if inventory.playerInventory['string'] >= 5 * int(amount):
-									inventory.playerInventory[str(self.command)] += 1 * int(amount)
-									inventory.playerInventory['string'] -= 5 * int(amount)
-							elif self.command in ['coconut milk']:
-								if inventory.playerInventory['coconuts'] >= 3 * int(amount):
-									inventory.playerInventory[str(self.command)] += 1 * int(amount)
-									inventory.playerInventory['coconuts'] -= 3 * int(amount)
+						if house == False:
+							print('What would you like to craft?')
+							print('Stone cost: 5 rock --- crafting material')
+							print('Wood cost: 5 sticks --- crafting material')
+							print('String cost: 5 leaves --- crafting material')
+							print('Coconut milk cost: 3 coconuts --- Heals 5 health')
+							print('House cost: 20 wood, 20 stone, 20 string --- lets you rest up to 50 health')
+							self.command = input().lower().strip()
+							amount = input('How many? ')
+							if self.command in ['stone', 'wood', 'string']:
+								basicCrafting(inventory.crafting.self.command, 5, self.command)
 							else:
-								if inventory.playerInventory['wood'] >= 20 * int(amount) and inventory.playerInventory['stone'] >= 20 * int(amount) and inventory.playerInventory['string'] >= 20 * int(amount):
-									inventory.playerInventory['wood'] -= 20
-									inventory.playerInventory['stone'] -= 20
-									inventory.playerInventory['string'] -=20
-									inventory.playerInventory['house'] = True
+								basicCrafting(inventory.crafting.self.command, 3, self.command)
 						else:
-							print(Activities.errorMessage)
+							print('What would you like to craft?')
+							print('Stone cost: 5 rock --- crafting material')
+							print('Wood cost: 5 sticks --- crafting material')
+							print('String cost: 5 leaves --- crafting material')
+							print('Coconut milk cost: 3 coconuts --- Heals 5 health')
+							print('Crafting Table cost: 25 wood, 25 stone, 10 string --- lets you craft more items')
+							self.command = input().lower().strip()
+							if self.command in ['stone', 'wood', 'string', 'coconut milk']:
+								if self.command in ['stone']:
+									amount = input('How many? ')
+									if inventory.playerInventory['rocks'] >= 5 * int(amount):
+										inventory.playerInventory[str(self.command)] += 1 * int(amount)
+										inventory.playerInventory['rocks'] -= 5 * int(amount)
+								elif self.command in ['wood']:
+									amount = input('How many? ')
+									if inventory.playerInventory['sticks'] >= 5 * int(amount):
+										inventory.playerInventory[str(self.command)] += 1 * int(amount)
+										inventory.playerInventory['sticks'] -= 5 * int(amount)
+								elif self.command in ['string']:
+									amount = input('How many? ')
+									if inventory.playerInventory['leaves'] >= 5 * int(amount):
+										inventory.playerInventory[str(self.command)] += 1 * int(amount)
+										inventory.playerInventory['leaves'] -= 5 * int(amount)
+								elif self.command in ['coconut milk']:
+									amount = input('How many? ')
+									if inventory.playerInventory['coconuts'] >= 3 * int(amount):
+										inventory.playerInventory[str(self.command)] += 1 * int(amount)
+										inventory.playerInventory['coconuts'] -= 3 * int(amount)
+								else:
+									if inventory.playerInventory['wood'] >= 25 and inventory.playerInventory['stone'] >= 20 and inventory.playerInventory['string'] >= 20:
+										inventory.playerInventory['wood'] -= 25
+										inventory.playerInventory['stone'] -= 25
+										inventory.playerInventory['string'] -=10
+										inventory.playerInventory['craftingTable'] = True
+									
 				else:
 					print(Activities.errorMessage)
 			elif self.command in ['pick up rocks', 'pick up sticks', 'pick up leaves', 'pick up coconuts']:
