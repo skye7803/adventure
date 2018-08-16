@@ -35,4 +35,4 @@ while True:
 			inventory.playerInventory['health'] /= 2
 			location.currentRegion = location.regions['cavea3II']
 
-	activities.processActivityStatement(location, inventory)
+	activities.process_activity_statement(location, inventory)
