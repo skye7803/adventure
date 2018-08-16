@@ -9,7 +9,7 @@ class Activities:
 	regionsSafe = ['centerb2']
 	regionsBeachy = ['beachb3', 'beachc1', 'beachc2', 'beachc3']
 
-	def processInput(self, location: Location, inventory: Inventory):
+	def processActivityStatement(self, location: Location, inventory: Inventory):
 		self.command = input('What do you do? ').lower()
 
 		if self.command in Activities.actions:

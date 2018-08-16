@@ -10,6 +10,8 @@ activities = Activities()
 
 inventory = Inventory()
 
+crater = True
+
 while True:
 	
 	print('You are at {}.'.format(location.currentRegion['name']))
@@ -23,5 +25,14 @@ while True:
 	
 	if inventory.playerInventory['house'] == True:
 		print('New crafting recipes learned!')
+	
+	if crater == True:
+		print()
+	else:
+		if location.currentRegion == 'cratera3':
+			print('The ground begins to crumble underneath you!')
+			print('You fall and black out!')
+			inventory.playerInventory['health'] /= 2
+			location.currentRegion = ['cavea3II']
 
-	activities.processInput(location, inventory)
+	activities.processActivityStatement(location, inventory)
