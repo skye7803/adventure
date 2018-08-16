@@ -1,8 +1,8 @@
 
 from pprint import pprint
-from adventure_location import Location
-from adventure_activities import Activities
-from adventure_player_inventory import Inventory
+from location import Location
+from activities import Activities
+from inventory import Inventory
 
 location = Location()
 

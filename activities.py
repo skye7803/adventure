@@ -1,12 +1,12 @@
 
-from adventure_location import Location
-from adventure_player_inventory import Inventory
+from location import Location
+from inventory import Inventory
 
 inventory = Inventory()
 location = Location()
 
 
-class Actvivties:
+class Activities:
 	def __init__(self):
 		self.command = input('What do you do?').lower()
 		self.direction = ''
