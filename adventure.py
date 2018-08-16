@@ -10,13 +10,6 @@ activities = Activities()
 
 inventory = Inventory()
 
-actions = ['move', 'craft', 'rest', 'check inventory', 'pick up rocks', 'pick up sticks','pick up leaves', 'pick up coconuts','eat', 'quit']
-errorMessage = 'Sorry, you can\'t do that right now'
-regionsRocky = ['dunesa1', 'dunesa2', 'cratera3', 'dunesb1']
-regionsSafe = ['centerb2']
-regionsBeachy = ['beachb3', 'beachc1', 'beachc2', 'beachc3']
-house = False
-
 while True:
 	
 	print('You are at {}.'.format(location.currentRegion['name']))
@@ -27,5 +20,8 @@ while True:
 		break
 	else:
 		print('Your health is ' + str(inventory.playerInventory['health']))
-	if house == True:
+	
+	if inventory.playerInventory['house'] == True:
 		print('New crafting recipes learned!')
+
+	activities.processInput(location, inventory)

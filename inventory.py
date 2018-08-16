@@ -13,6 +13,7 @@ class Inventory:
 			'stone' : 0,
 			'string' : 0,
 			'coconut milk' : 0,
+			'house' : False,
 		}
 
 	def print_inventory(self):
