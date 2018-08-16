@@ -67,20 +67,28 @@ while True:
 					command = input().lower().strip()
 					amount = input('How many?')
 					if command in ['stone', 'wood', 'string', 'coconut milk']:
-						inventory.playerInventory[str(command)] += 1 * int(amount)
 						if command in ['stone']:
-							inventory.playerInventory['rocks'] -= 5 * int(amount)
+							if inventory.playerInventory['rocks'] >= 5 * int(amount):
+								inventory.playerInventory[str(command)] += 1 * int(amount)
+								inventory.playerInventory['rocks'] -= 5 * int(amount)
 						elif command in ['wood']:
-							inventory.playerInventory['sticks'] -= 5 * int(amount)
+							if inventory.playerInventory['sticks'] >= 5 * int(amount):
+								inventory.playerInventory[str(command)] += 1 * int(amount)
+								inventory.playerInventory['sticks'] -= 5 * int(amount)
 						elif command in ['string']:
-							inventory.playerInventory['leaves'] -= 5 * int(amount)
+							if inventory.playerInventory['string'] >= 5 * int(amount):
+								inventory.playerInventory[str(command)] += 1 * int(amount)
+								inventory.playerInventory['string'] -= 5 * int(amount)
 						elif command in ['coconut milk']:
-							inventory.playerInventory['coconuts'] -= 3 * int(amount)
+							if inventory.playerInventory['coconuts'] >= 3 * int(amount):
+								inventory.playerInventory[str(command)] += 1 * int(amount)
+								inventory.playerInventory['coconuts'] -= 3 * int(amount)
 						else:
-							inventory.playerInventory['wood'] -= 20
-							inventory.playerInventory['stone'] -= 20
-							inventory.playerInventory['string'] -=20
-							house = True
+							if inventory.playerInventory['wood'] >= 20 * int(amount) and inventory.playerInventory['stone'] >= 20 * int(amount) and inventory.playerInventory['string'] >= 20 * int(amount):
+								inventory.playerInventory['wood'] -= 20
+								inventory.playerInventory['stone'] -= 20
+								inventory.playerInventory['string'] -=20
+								house = True
 					else:
 						print(errorMessage)
 			else:
@@ -141,7 +149,7 @@ while True:
 			else:
 				print('[]')
 			if inventory.playerInventory['coconut milk'] >= 1:
-				print(str(inventory.playerInventory['coconut milk']))
+				print(str(inventory.playerInventory['coconut milk']) + ' coconut milk')
 			else:
 				print([])
 			if inventory.playerInventory['health'] >= 1:
