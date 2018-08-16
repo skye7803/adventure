@@ -119,43 +119,7 @@ while True:
 			else:
 				print(errorMessage)
 		elif command.lower().strip() in ['check inventory']:
-			print('You have:')
-			if inventory.playerInventory['sticks'] >= 1:
-				print(str(inventory.playerInventory['sticks']) + ' sticks')
-			else:
-				print('[]')
-			if inventory.playerInventory['rocks'] >= 1:
-				print(str(inventory.playerInventory['rocks']) + ' rocks')
-			else:
-				print('[]')
-			if inventory.playerInventory['wood'] >= 1:
-				print(str(inventory.playerInventory['wood']) + ' wood')
-			else:
-				print('[]')
-			if inventory.playerInventory['stone'] >= 1:
-				print(str(inventory.playerInventory['stone']) + ' stone')
-			else:
-				print('[]')
-			if inventory.playerInventory['leaves'] >= 1:
-				print(str(inventory.playerInventory['leaves']) + ' leaves')
-			else:
-				print('[]')
-			if inventory.playerInventory['coconuts'] >= 1:
-				print(str(inventory.playerInventory['coconuts']) + ' coconuts')
-			else:
-				print('[]')
-			if inventory.playerInventory['string'] >= 1:
-				print(str(inventory.playerInventory['string']) + ' string')
-			else:
-				print('[]')
-			if inventory.playerInventory['coconut milk'] >= 1:
-				print(str(inventory.playerInventory['coconut milk']) + ' coconut milk')
-			else:
-				print([])
-			if inventory.playerInventory['health'] >= 1:
-				print(str(inventory.playerInventory['health']) + ' health')
-			else:
-				print('You\'ve broken the game. Good job.')
+			inventory.print_inventory()
 		else:
 			break
 	else:
