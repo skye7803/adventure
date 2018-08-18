@@ -1,7 +1,3 @@
-
-from location import Location
-from inventory import Inventory
-from enemies import Enemies
 import random
 import pprint
 
@@ -12,6 +8,8 @@ class Activities:
     regionsRocky = ['dunesa1', 'dunesa2', 'cratera3', 'dunesb1', 'cavea3II', 'cavea2II', 'caveb3II', 'cavea4II']
     regionsSafe = ['centerb2', 'mineb2II']
     regionsBeachy = ['beachb3', 'beachc1', 'beachc2', 'beachc3']
+    regionsCave = ['cavea3II', 'cavea2II', 'caveb3II', 'caveb4II']
+    regionsMine = ['mineb2II']
 
     def __init__(self):
         self.inventory_new_recipes = 'Checked'
@@ -98,13 +96,16 @@ class Activities:
                     print('I don\'t understand')
             else:
                 print('I don\'t understand')
-    def pickup_resources(self, resource, resource_amount, inventory):
+
+    def get_resources(self, resource, resource_amount, inventory):
         if resource in ['rocks', 'sticks', 'leaves']:
             inventory.playerInventory[resource] += resource_amount
+            print('You have', str(inventory.playerInventory[resource]), str(resource))
         elif resource in ['coconuts']:
             inventory.playerInventory['items'][resource] += resource_amount
+            print('You have', str(inventory.playerInventory['items'][resource]), str(resource))
         inventory.playerInventory['health'] -= 1
-        print('You have', str(inventory.playerInventory[resource]), str(resource))
+
 
     def basic_crafting(self, inventory, conv_factor, item_to_craft):
 
@@ -142,23 +143,23 @@ class Activities:
             if self.command == 'move':
                 self.direction = input('Where do you go? ').lower()
                 if self.direction in location.directions:
-                    if self.direction in location.currentRegion.keys():
-                        location.currentRegion = location.regions[location.currentRegion[self.direction]]
+                    if self.direction in location.current_region.keys():
+                        location.current_region = location.regions[location.current_region[self.direction]]
                         inventory.playerInventory['health'] -= 2
                     else:
                         print("You can't go that way.")
                 else:
                     print("I don't understand that direction.")
             elif self.command in ['eat']:
-                if inventory.playerInventory['coconuts'] >= 1:
-                    inventory.playerInventory['coconuts'] -= 1
+                if inventory.playerInventory['items']['coconuts'] >= 1:
+                    inventory.playerInventory['items']['coconuts'] -= 1
                     inventory.playerInventory['health'] += 1
                     print('Your health is ' + str(inventory.playerInventory['health']))
-                    print('You have ' + str(inventory.playerInventory['coconuts']) + ' coconuts')
+                    print('You have ' + str(inventory.playerInventory['items']['coconuts']) + ' coconuts')
                 else:
                     print('You have no coconuts!')
             elif self.command in ['craft', 'rest']:
-                if location.currentRegion['id'] in Activities.regionsSafe:
+                if location.current_region['id'] in Activities.regionsSafe:
                     if self.command == 'rest':
                         if inventory.playerInventory['health'] < 50:
                             if inventory.playerInventory['house'] == False:
@@ -227,21 +228,21 @@ class Activities:
                 else:
                     print(Activities.errorMessage)
             elif self.command in ['pick up rocks', 'pick up sticks', 'pick up leaves', 'pick up coconuts']:
-                if location.currentRegion['id'] in Activities.regionsRocky:
+                if location.current_region['id'] in Activities.regionsRocky:
                     if self.command in ['pick up rocks']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', 5, inventory)
-                        self.pickup_resources('rocks', 10, inventory)
+                        self.get_resources('rocks', 10, inventory)
                     else:
                         print(Activities.errorMessage)
-                elif location.currentRegion['id'] in Activities.regionsBeachy:
+                elif location.current_region['id'] in Activities.regionsBeachy:
                     if self.command in ['pick up sticks']:
-                        self.pickup_resources('sticks', 10, inventory)
+                        self.get_resources('sticks', 10, inventory)
                     elif self.command in ['pick up leaves']:
-                        self.pickup_resources('leaves', 15, inventory)
+                        self.get_resources('leaves', 15, inventory)
                     elif self.command in ['pick up coconuts']:
-                        self.pickup_resources('coconuts', 5, inventory)
+                        self.get_resources('coconuts', 5, inventory)
                     else:
                         print(Activities.errorMessage)
                 else:
