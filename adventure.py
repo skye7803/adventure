@@ -13,8 +13,6 @@ location = Location()
 
 enemies = Enemies()
 
-crater = True
-
 while True:
 
     print('You are at ' + location.get_current_region_text(inventory, activities))
@@ -29,12 +27,13 @@ while True:
         if activities.inventory_new_recipes == 'Unchecked':
             print('New crafting recipes learned!')
 
-    if crater == False:
+    if activities.crater == False:
         if location.current_region == location.regions['cratera3']:
             print('The ground begins to crumble underneath you!')
             print('You fall and black out!')
             inventory.playerInventory['health'] //= 2
             location.current_region = location.regions['cavea3II']
+            cave()
 
     if inventory.playerInventory['house']:
         if inventory.playerInventory['crafting_table']:

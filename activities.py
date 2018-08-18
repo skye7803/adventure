@@ -13,6 +13,7 @@ class Activities:
 
     def __init__(self):
         self.inventory_new_recipes = 'Checked'
+        self.crater = True
 
     def print_basic_crafting_text(self):
         print('What would you like to craft?')
@@ -113,7 +114,7 @@ class Activities:
                     print('I don\'t understand')
             else:
                 print('I don\'t understand')
-        enemies.enemy['health'] = self.health_storage
+        enemy['health'] = self.health_storage
 
     def get_resources(self, resource, resource_amount, inventory):
         if resource in ['rocks', 'sticks', 'leaves']:
@@ -303,6 +304,8 @@ class Activities:
                         print('I don\'t understand that command')
                 elif self.command != 'no':
                     print('I don\'t undersand that command')
+            elif self.command in ['deploy ladder']:
+                self.crater = False
             else:
                 # TODO what happens here?  break only works in a loop...
                 print('what?')

@@ -125,13 +125,26 @@ class Location:
 
     def get_current_region_text(self, inventory, activities):
         if self.current_region['id'] in activities.regionsRocky + activities.regionsCave:
+            if self.current_region['id'] == 'cratera3':
+                if 'ladder' in inventory.playerInventory.keys():
+                    if inventory.playerInventory['ladder'] == True:
+                        if inventory.playerInventory['pickaxe']:
+                            return self.current_region['name'] + self.default_text + 'mine stone, or deploy ladder'
+                        else:
+                            return self.current_region['name'] + self.default_text + 'pick up rocks, or deploy ladder'
             if 'pickaxe' in inventory.playerInventory.keys():
-                return self.current_region['name'] + self.default_text + ' mine stone'
+                if inventory.playerInventory['pickaxe'] == True:
+                    return self.current_region['name'] + self.default_text + ' mine stone'
+                else:
+                    return self.current_region['name'] + self.default_text + ' or pick up rocks.'
             else:
                 return self.current_region['name'] + self.default_text + ' or pick up rocks.'
         elif self.current_region['id'] in activities.regionsBeachy + activities.regionsMine:
             if 'axe' in inventory.playerInventory.keys():
-                return self.current_region['name'] + self.default_text + ' mine wood, pick up leaves, or pick up coconuts.'
+                if inventory.playerInventory['axe'] == True:
+                    return self.current_region['name'] + self.default_text + ' mine wood, pick up leaves, or pick up coconuts.'
+                else:
+                    return self.current_region['name'] + self.default_text + ' pick up sticks, pick up leaves, or pick up coconuts'
             else:
                 return self.current_region['name'] + self.default_text + ' pick up sticks, pick up leaves, or pick up coconuts'
         elif self.current_region['id'] in activities.regionsSafe:
