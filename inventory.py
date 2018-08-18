@@ -8,9 +8,9 @@ class Inventory:
             'sticks': 0,
             'rocks': 0,
             'leaves': 0,
-            'wood': 45,
-            'stone': 45,
-            'string': 30,
+            'wood': 0,
+            'stone': 0,
+            'string': 0,
             'items': {
                 'coconut milk': 0,
                 'coconuts': 0,
@@ -26,7 +26,8 @@ class Inventory:
         }
         self.weapon = {
             'name': 'fists',
-            'attack': 1,
+            'damage': 1,
+            'ammo' : 'none'
         }
 
     def print_inventory(self):

@@ -29,7 +29,7 @@ while True:
         if activities.inventory_new_recipes == 'Unchecked':
             print('New crafting recipes learned!')
 
-    if crater == True:
+    if crater == False:
         if location.current_region == location.regions['cratera3']:
             print('The ground begins to crumble underneath you!')
             print('You fall and black out!')

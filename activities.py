@@ -21,8 +21,13 @@ class Activities:
         print('String cost: 2 leaves --- crafting material')
         print('Coconut milk cost: 3 coconuts --- Heals 5 health')
 
-    def battle(self, enemy, enemy_name, attackA, attackB, EXP, inventory):
+    def battle(self, enemy, enemy_name, attackA, attackB, EXP, ammo, inventory):
+        """
+
+        :type inventory: object
+        """
         battle_loop = True
+        self.health_storage = enemy['health']
         while battle_loop == True:
             print('You have been encountered by a ' + str(enemy_name))
             print('Your health is at: ' + str(inventory.playerInventory['health']))
@@ -32,19 +37,31 @@ class Activities:
             print('Item')
             command = input().lower().strip()
             if command == 'fight':
-                enemy['health'] -= inventory.weapon['attack']
+                percent_hit = random.randint(1,5)
+                if inventory.weapon['type'] == 'melee':
+                    if percent_hit != 1:
+                        enemy['health'] -= inventory.weapon['damage']
+                        print('You attack!')
+                elif inventory.weapon['type'] == 'ranged':
+                    if ammo > 0:
+                        if percent_hit in [3, 4, 5]:
+                            enemy['health'] -= inventory.weapon['damage']
+                            print('You attack!')
+                        ammo -= 1
+                    else:
+                        print('No ammo!')
                 enemy_attack = random.randint(1, 3)
                 if enemy_attack == 1:
                     inventory.playerInventory['health'] -= enemy[attackA]
                 else:
                     inventory.playerInventory['health'] -= enemy[attackB]
+                print('Enemy attacks!')
                 if inventory.playerInventory['health'] <= 0:
-                    print('You died!')
                     break
                 if enemy['health'] <= 0:
-                    print('You defeated ' + str(enemy))
+                    print('You defeated ' + str(enemy['id']))
                     inventory.playerInventory['EXP'] += EXP
-                    print('You have ' + EXP + ' EXP!')
+                    print('You have ' + str(EXP) + ' EXP!')
                     battle_loop = False
             elif command == 'run':
                 run_chance = random.randint(1, 2)
@@ -65,9 +82,9 @@ class Activities:
                 print(inventory.playerInventory['items'])
                 command = input().lower().strip()
                 if command == 'coconut milk':
-                    if inventory.items['coconut milk'] > 0:
+                    if inventory.playerInventory['items']['coconut milk'] > 0:
                         inventory.playerInventory['health'] += 5
-                        inventory.items['coconut milk'] -= 1
+                        inventory.playerInventory['items']['coconut milk'] -= 1
                         enemy_attack = random.randint(1, 3)
                         if enemy_attack == 1:
                             inventory.playerInventory['health'] -= enemy[attackA]
@@ -79,9 +96,9 @@ class Activities:
                     else:
                         print('No coconut milk!')
                 elif command == 'coconuts':
-                    if inventory.items['coconuts'] > 0:
+                    if inventory.playerInventory['items']['coconuts'] > 0:
                         inventory.playerInventory['health'] += 5
-                        inventory.items['coconuts'] -= 1
+                        inventory.playerInventory['items']['coconuts'] -= 1
                         enemy_attack = random.randint(1, 3)
                         if enemy_attack == 1:
                             inventory.playerInventory['health'] -= enemy[attackA]
@@ -96,6 +113,7 @@ class Activities:
                     print('I don\'t understand')
             else:
                 print('I don\'t understand')
+        enemies.enemy['health'] = self.health_storage
 
     def get_resources(self, resource, resource_amount, inventory):
         if resource in ['rocks', 'sticks', 'leaves']:
@@ -232,7 +250,10 @@ class Activities:
                     if self.command in ['pick up rocks']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
-                            self.battle(enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', 5, inventory)
+                            self.battle(
+                                enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite',
+                                enemies.rattlesnake['EXP'], inventory.weapon['ammo'], inventory
+                                        )
                         self.get_resources('rocks', 10, inventory)
                     else:
                         print(Activities.errorMessage)
@@ -252,6 +273,36 @@ class Activities:
                 inventory.print_inventory()
                 print('Your current weapon is:')
                 print(inventory.weapon)
+                self.command = input('Would you like to change weapons?').lower().strip()
+                if self.command == 'yes':
+                    print('Fists --- Melee weapon --- 1 damage')
+                    if inventory.playerInventory['rocks'] > 0:
+                        print('Rocks --- ranged item --- 2 damage')
+                    if 'simple_sword' in inventory.weapon.keys():
+                        if inventory.weapon['simple_sword']:
+                            print('Simple sword --- Melee weapon --- 3 damage')
+                    self.command = input('What would you like to switch to?').lower().strip()
+                    if self.command == 'fists':
+                        inventory.weapon['name'] = 'fists'
+                        inventory.weapon['damage'] = 1
+                        inventory.weapon['type'] = 'melee'
+                        inventory.weapon['ammo'] = 'none'
+                    elif self.command == 'rocks':
+                        inventory.weapon['name'] = 'rocks'
+                        inventory.weapon['damage'] = 2
+                        inventory.weapon['type'] = 'ranged'
+                        inventory.weapon['ammo'] = inventory.playerInventory['rocks']
+                    elif 'simple_sword' in inventory.weapon.keys():
+                        if inventory.weapon['simple_sword']:
+                            if self.command == 'simple sword':
+                                inventory.weapon['name'] = 'simple_sword'
+                                inventory.weapon['damage'] = 3
+                                inventory.weapon['type'] = 'melee'
+                                inventory.weapon['ammo'] = 'none'
+                    else:
+                        print('I don\'t understand that command')
+                elif self.command != 'no':
+                    print('I don\'t undersand that command')
             else:
                 # TODO what happens here?  break only works in a loop...
                 print('what?')

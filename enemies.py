@@ -2,8 +2,10 @@
 class Enemies:
     def __init__(self):
         self.rattlesnake = {
-            'health' : 5,
+            'id' : 'rattlesnake',
+            'health' : 3,
             'bite' : 3,
             'venom_bite' : 5,
+            'EXP' : 5,
             'loot' : []
         }
