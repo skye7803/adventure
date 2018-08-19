@@ -3,13 +3,13 @@ import pprint
 
 class Activities:
     actions = ['move', 'craft', 'rest', 'check inventory', 'pick up rocks', 'pick up sticks', 'pick up leaves',
-               'pick up coconuts', 'eat', 'quit']
+               'pick up coconuts', 'eat', 'quit', 'mine stone', 'mine wood', 'deploy ladder']
     errorMessage = 'Sorry, you can\'t do that right now'
     regionsRocky = ['dunesa1', 'dunesa2', 'cratera3', 'dunesb1', 'cavea3II', 'cavea2II', 'caveb3II', 'cavea4II']
     regionsSafe = ['centerb2', 'mineb2II']
     regionsBeachy = ['beachb3', 'beachc1', 'beachc2', 'beachc3']
     regionsCave = ['cavea3II', 'cavea2II', 'caveb3II', 'caveb4II']
-    regionsMine = ['mineb2II']
+    regionsMineControlStation = ['mineb2II']
 
     def __init__(self):
         self.inventory_new_recipes = 'Checked'
@@ -22,7 +22,7 @@ class Activities:
         print('String cost: 2 leaves --- crafting material')
         print('Coconut milk cost: 3 coconuts --- Heals 5 health')
 
-    def battle(self, enemy, enemy_name, attackA, attackB, ammo, inventory):
+    def battle(self, enemy, enemy_name, attackA, attackB, ammo, inventory, location):
         """
 
         :type inventory: object
@@ -52,18 +52,32 @@ class Activities:
                     else:
                         print('No ammo!')
                 enemy_attack = random.randint(1, 3)
-                if enemy_attack == 1:
-                    inventory.playerInventory['health'] -= enemy[attackA]
+                if location.current_region in Activities().regionsCave:
+                    if enemy_attack in [1, 2]:
+                        inventory.playerInventory['health'] -= enemy[attackA]
+                    else:
+                        inventory.playerInventory['health'] -= enemy[attackB]
+                    print('Enemy attacks!')
+                    if inventory.playerInventory['health'] <= 0:
+                        break
+                    if enemy['health'] <= 0:
+                        print('You defeated ' + str(enemy['id']))
+                        inventory.playerInventory['EXP'] += enemy['EXP']
+                        print('You have ' + str(inventory.playerInventory['EXP']) + ' EXP!')
+                        battle_loop = False
                 else:
-                    inventory.playerInventory['health'] -= enemy[attackB]
-                print('Enemy attacks!')
-                if inventory.playerInventory['health'] <= 0:
-                    break
-                if enemy['health'] <= 0:
-                    print('You defeated ' + str(enemy['id']))
-                    inventory.playerInventory['EXP'] += enemy['EXP']
-                    print('You have ' + str(inventory.playerInventory['EXP']) + ' EXP!')
-                    battle_loop = False
+                    if enemy_attack == 1:
+                        inventory.playerInventory['health'] -= enemy[attackA]
+                    else:
+                        inventory.playerInventory['health'] -= enemy[attackB]
+                    print('Enemy attacks!')
+                    if inventory.playerInventory['health'] <= 0:
+                        break
+                    if enemy['health'] <= 0:
+                        print('You defeated ' + str(enemy['id']))
+                        inventory.playerInventory['EXP'] += enemy['EXP']
+                        print('You have ' + str(inventory.playerInventory['EXP']) + ' EXP!')
+                        battle_loop = False
             elif command == 'run':
                 run_chance = random.randint(1, 2)
                 if run_chance == 1:
@@ -117,11 +131,13 @@ class Activities:
         enemy['health'] = self.health_storage
 
     def get_resources(self, resource, resource_amount, inventory):
-        if resource in ['rocks', 'sticks', 'leaves']:
+        if resource in ['rocks', 'sticks', 'leaves', 'stone', 'wood']:
             inventory.playerInventory[resource] += resource_amount
+            inventory.world_resources[resource] -= resource_amount
             print('You have', str(inventory.playerInventory[resource]), str(resource))
         elif resource in ['coconuts']:
             inventory.playerInventory['items'][resource] += resource_amount
+            inventory.world_resources[resource] -= resource_amount
             print('You have', str(inventory.playerInventory['items'][resource]), str(resource))
 
 
@@ -162,11 +178,16 @@ class Activities:
     def process_activity_statement(self, location, inventory, enemies):
         self.command = input('What do you do? ').lower()
 
-        if self.command in Activities.actions:
+        if self.command in Activities().actions:
             if self.command == 'move':
                 self.direction = input('Where do you go? ').lower()
                 if self.direction in location.directions:
                     if self.direction in location.current_region.keys():
+                        if location.current_region in Activities().regionsCave:
+                            battle_odds = random.randint(1, 3)
+                            if battle_odds in [1, 2]:
+                                battle(enemies.rat, 'rat', 'scratch', 'bite', inventory.weapon['ammo'],
+                                       inventory, location)
                         location.current_region = location.regions[location.current_region[self.direction]]
                     else:
                         print("You can't go that way.")
@@ -174,7 +195,7 @@ class Activities:
                     print("I don't understand that direction.")
             elif self.command in ['eat']:
                 if inventory.playerInventory['items']['coconuts'] > 0:
-                    print('Coconut: heals 1 health')
+                    print('Coconuts: heals 1 health')
                 if inventory.playerInventory['items']['coconut milk'] > 0:
                     print('Coconut milk: heals 5 health')
                 self.command = input('What would you like to eat?').lower().strip()
@@ -183,7 +204,7 @@ class Activities:
                         inventory.playerInventory['items']['coconuts'] -= 1
                         inventory.playerInventory['health'] += 1
                         print('You have ' + str(inventory.playerInventory['items']['coconuts']) + ' coconuts')
-                if self.command == 'coconut milk':
+                elif self.command == 'coconut milk':
                     if inventory.playerInventory['items']['coconut milk'] >= 1:
                         inventory.playerInventory['items']['coconut milk'] -= 1
                         inventory.playerInventory['health'] += 5
@@ -257,6 +278,12 @@ class Activities:
                             elif self.command in ['ladder']:
                                 self.advanced_crafting('wood', 'stone', 'string', 'sticks', 'rocks',
                                                        50, 0, 10, 0, 0, 'ladder', inventory)
+                            elif self.command in ['stone', 'wood', 'string']:
+                                self.basic_crafting(inventory, 2, self.command)
+                            elif self.command in ['coconut milk']:
+                                self.basic_crafting(inventory, 3, self.command)
+                            else:
+                                print('Invalid Input')
                 else:
                     print(Activities.errorMessage)
             elif self.command in ['pick up rocks', 'pick up sticks', 'pick up leaves', 'pick up coconuts']:
@@ -265,7 +292,8 @@ class Activities:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
-                                enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', inventory.weapon['ammo'], inventory
+                                enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', inventory.weapon['ammo'],
+                                inventory, location
                                         )
                         self.get_resources('rocks', 10, inventory)
                     else:
@@ -275,27 +303,59 @@ class Activities:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
-                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'], inventory
+                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
+                                inventory, location
                             )
                         self.get_resources('sticks', 10, inventory)
                     elif self.command in ['pick up leaves']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
-                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'], inventory
+                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
+                                inventory, location
                             )
                         self.get_resources('leaves', 15, inventory)
                     elif self.command in ['pick up coconuts']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
-                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'], inventory
+                                enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
+                                inventory, location
                             )
                         self.get_resources('coconuts', 5, inventory)
                     else:
                         print(Activities.errorMessage)
                 else:
                     print(Activities.errorMessage)
+            elif self.command in ['mine stone', 'mine wood']:
+                if 'simple_pickaxe' in inventory.playerInventory.keys():
+                    if inventory.playerInventory['simple_pickaxe']:
+                        if location.current_region['id'] in Activities().regionsRocky:
+                            if self.command in ['mine stone']:
+                                battle_odds = random.randint(1, 3)
+                                if battle_odds == 1:
+                                    self.battle(
+                                        enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', inventory.weapon['ammo'],
+                                        inventory, location
+                                                )
+                                self.get_resources('stone', 10, inventory)
+                            else:
+                                print(Activities.errorMessage)
+                if 'simple_axe' in inventory.playerInventory.keys():
+                    if inventory.playerInventory['simple_axe']:
+                        if location.current_region['id'] in Activities().regionsBeachy:
+                            if self.command in ['mine wood']:
+                                battle_odds = random.randint(1, 3)
+                                if battle_odds == 1:
+                                    self.battle(
+                                        enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
+                                        inventory, location
+                                    )
+                                self.get_resources('wood', 10, inventory)
+                            else:
+                                print(Activities.errorMessage)
+                    else:
+                        print(Activities.errorMessage)
             elif self.command in ['check inventory']:
                 print('Your inventory is:')
                 inventory.print_inventory()
@@ -306,8 +366,8 @@ class Activities:
                     print('Fists --- Melee weapon --- 1 damage')
                     if inventory.playerInventory['rocks'] > 0:
                         print('Rocks --- ranged item --- 2 damage')
-                    if 'simple_sword' in inventory.weapon.keys():
-                        if inventory.weapon['simple_sword']:
+                    if 'simple_sword' in inventory.playerInventory.keys():
+                        if inventory.playerInventory['simple_sword']:
                             print('Simple sword --- Melee weapon --- 3 damage')
                     self.command = input('What would you like to switch to?').lower().strip()
                     if self.command == 'fists':
@@ -320,8 +380,8 @@ class Activities:
                         inventory.weapon['damage'] = 2
                         inventory.weapon['type'] = 'ranged'
                         inventory.weapon['ammo'] = inventory.playerInventory['rocks']
-                    elif 'simple_sword' in inventory.weapon.keys():
-                        if inventory.weapon['simple_sword']:
+                    elif 'simple_sword' in inventory.playerInventory.keys():
+                        if inventory.playerInventory['simple_sword']:
                             if self.command == 'simple sword':
                                 inventory.weapon['name'] = 'simple_sword'
                                 inventory.weapon['damage'] = 3
@@ -332,7 +392,9 @@ class Activities:
                 elif self.command != 'no':
                     print('I don\'t undersand that command')
             elif self.command in ['deploy ladder']:
-                self.crater = False
+                if 'ladder' in inventory.playerInventory.keys():
+                    if inventory.playerInventory['ladder']:
+                        self.crater = False
             else:
                 # TODO what happens here?  break only works in a loop...
                 print('what?')

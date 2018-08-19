@@ -91,7 +91,7 @@ class Location:
                 'west': 'cavea2II',
             },
             'cavea2II': {
-                'id': 'caveawII',
+                'id': 'cavea2II',
                 'type' : 'cave',
                 'name': 'a deep dark cave',
                 'east': 'cavea3II',
@@ -114,7 +114,7 @@ class Location:
             'mineb2II': {
                 'id': 'mineb2II',
                 'type' : 'mine',
-                'name': 'a creepy abandoned mineshaft',
+                'name': 'a creepy abandoned mine control station',
                 'north': 'cavea2II',
                 'east': 'caveb3II',
             },
@@ -128,26 +128,26 @@ class Location:
             if self.current_region['id'] == 'cratera3':
                 if 'ladder' in inventory.playerInventory.keys():
                     if inventory.playerInventory['ladder'] == True:
-                        if inventory.playerInventory['pickaxe']:
-                            return self.current_region['name'] + self.default_text + 'mine stone, or deploy ladder'
+                        if inventory.playerInventory['simple_pickaxe']:
+                            return self.current_region['name'] + self.default_text + ' mine stone, or deploy ladder'
                         else:
-                            return self.current_region['name'] + self.default_text + 'pick up rocks, or deploy ladder'
-            if 'pickaxe' in inventory.playerInventory.keys():
-                if inventory.playerInventory['pickaxe'] == True:
-                    return self.current_region['name'] + self.default_text + ' mine stone'
+                            return self.current_region['name'] + self.default_text + ' pick up rocks, or deploy ladder'
+            if 'simple_pickaxe' in inventory.playerInventory.keys():
+                if inventory.playerInventory['simple_pickaxe']:
+                    return self.current_region['name'] + self.default_text + ' or mine stone'
                 else:
                     return self.current_region['name'] + self.default_text + ' or pick up rocks.'
             else:
                 return self.current_region['name'] + self.default_text + ' or pick up rocks.'
-        elif self.current_region['id'] in activities.regionsBeachy + activities.regionsMine:
-            if 'axe' in inventory.playerInventory.keys():
-                if inventory.playerInventory['axe'] == True:
+        elif self.current_region['id'] in activities.regionsBeachy:
+            if 'simple_axe' in inventory.playerInventory.keys():
+                if inventory.playerInventory['simple_axe']:
                     return self.current_region['name'] + self.default_text + ' mine wood, pick up leaves, or pick up coconuts.'
                 else:
                     return self.current_region['name'] + self.default_text + ' pick up sticks, pick up leaves, or pick up coconuts'
             else:
                 return self.current_region['name'] + self.default_text + ' pick up sticks, pick up leaves, or pick up coconuts'
-        elif self.current_region['id'] in activities.regionsSafe:
+        elif self.current_region['id'] in activities.regionsSafe + activities.regionsMineControlStation:
             return self.current_region['name'] + self.default_text + ' craft, or rest.'
 
 

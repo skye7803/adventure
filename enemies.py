@@ -8,7 +8,7 @@ class Enemies:
             'bite': 3,
             'venom_bite': 5,
             'EXP': 5,
-            'loot': []
+            'loot': [],
         }
         self.crab = {
             'id': 'crab',
@@ -17,5 +17,14 @@ class Enemies:
             'pinch': 3,
             'double_pinch': 6,
             'EXP': 8,
-            'loot': []
+            'loot': [],
+        }
+        self.rat = {
+            'id': 'rat',
+            'armor': [1, 2],
+            'health': 3,
+            'scratch': 3,
+            'bite': 5,
+            'EXP': 5,
+            'loot': [],
         }
