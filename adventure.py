@@ -19,7 +19,7 @@ while True:
 
     if inventory.playerInventory['health'] <= 0:
         print('You died!')
-        break
+        print('You had ' + str(inventory.playerInventory['EXP']) + ' EXP!')
     else:
         print('Your health is ' + str(inventory.playerInventory['health']))
 
@@ -34,11 +34,5 @@ while True:
             inventory.playerInventory['health'] //= 2
             location.current_region = location.regions['cavea3II']
             cave()
-
-    if inventory.playerInventory['house']:
-        if inventory.playerInventory['crafting_table']:
-            if inventory.playerInventory['simple_sword'] == True:
-                inventory.weapon['name'] = 'simple_sword'
-                inventory.weapon['attack'] = 3
 
     activities.process_activity_statement(location, inventory, enemies)
