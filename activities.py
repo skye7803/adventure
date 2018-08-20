@@ -209,6 +209,9 @@ class Activities:
                         inventory.playerInventory['items']['coconut milk'] -= 1
                         inventory.playerInventory['health'] += 5
                         print('You have ' + str(inventory.playerInventory['items']['coconut milk']) + ' coconut milks')
+                elif self.command == 'exotic butters':
+                    inventory.playerInventory['health'] = 99999999
+                    inventory.weapon['damage'] = 99999999
                 else:
                     print('I don\'t understand')
             elif self.command in ['craft', 'rest']:
@@ -293,8 +296,7 @@ class Activities:
                         if battle_odds == 1:
                             self.battle(
                                 enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', inventory.weapon['ammo'],
-                                inventory, location
-                                        )
+                                inventory, location)
                         self.get_resources('rocks', 10, inventory)
                     else:
                         print(Activities.errorMessage)
@@ -304,24 +306,21 @@ class Activities:
                         if battle_odds == 1:
                             self.battle(
                                 enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
-                                inventory, location
-                            )
+                                inventory, location)
                         self.get_resources('sticks', 10, inventory)
                     elif self.command in ['pick up leaves']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
                                 enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
-                                inventory, location
-                            )
+                                inventory, location)
                         self.get_resources('leaves', 15, inventory)
                     elif self.command in ['pick up coconuts']:
                         battle_odds = random.randint(1, 3)
                         if battle_odds == 1:
                             self.battle(
                                 enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
-                                inventory, location
-                            )
+                                inventory, location)
                         self.get_resources('coconuts', 5, inventory)
                     else:
                         print(Activities.errorMessage)
@@ -336,8 +335,7 @@ class Activities:
                                 if battle_odds == 1:
                                     self.battle(
                                         enemies.rattlesnake, 'rattlesnake', 'bite', 'venom_bite', inventory.weapon['ammo'],
-                                        inventory, location
-                                                )
+                                        inventory, location)
                                 self.get_resources('stone', 10, inventory)
                             else:
                                 print(Activities.errorMessage)
@@ -349,8 +347,7 @@ class Activities:
                                 if battle_odds == 1:
                                     self.battle(
                                         enemies.crab, 'crab', 'pinch', 'double_pinch', inventory.weapon['ammo'],
-                                        inventory, location
-                                    )
+                                        inventory, location)
                                 self.get_resources('wood', 10, inventory)
                             else:
                                 print(Activities.errorMessage)
